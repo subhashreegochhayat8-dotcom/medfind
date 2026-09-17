@@ -36,7 +36,6 @@ def freshness_score(last_updated_str):
         label, score = 'fresh', 1.0
     elif age_minutes < STALE_HOURS * 60:
         label = 'aging'
-        # Decay from 1.0 down to 0.3 as it ages
         score = max(0.3, 1.0 - (age_minutes / (STALE_HOURS * 60)) * 0.7)
     else:
         label, score = 'stale', 0.3
@@ -56,7 +55,6 @@ def index():
 @app.route('/api/search')
 def search():
     query = request.args.get('q', '').strip()
-    # User location from query params; default to Bhubaneswar center
     user_lat = float(request.args.get('lat', 20.2961))
     user_lon = float(request.args.get('lon', 85.8245))
 
@@ -76,7 +74,6 @@ def search():
     ''', (f'%{query}%', f'%{query}%')).fetchall()
     conn.close()
 
-    # Build result objects with all the raw signals
     results = []
     for row in rows:
         dist_km = haversine(user_lat, user_lon, row['latitude'], row['longitude'])
@@ -100,13 +97,11 @@ def search():
             '_open_score': 1.0 if row['is_open'] else 0.0,
         })
 
-    # Normalize distance: best (smallest) gets 1.0
     if results:
         max_dist = max(r['distance_km'] for r in results)
         for r in results:
             r['_dist_score'] = 1.0 - (r['distance_km'] / max_dist) if max_dist > 0 else 1.0
 
-    # Compute final score and rank
     for r in results:
         r['score'] = round(
             W_AVAIL * r['_avail_score'] +
@@ -117,16 +112,11 @@ def search():
         )
     results.sort(key=lambda r: r['score'], reverse=True)
 
-    # Clean up internal fields before sending
     for r in results:
         for k in ['_avail_score', '_fresh_score', '_dist_score', '_open_score']:
             r.pop(k)
 
     return jsonify(results)
-
-@app.route('/pharmacy')
-def pharmacy_dashboard():
-    return render_template('pharmacy.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

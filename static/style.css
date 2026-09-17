@@ -1,0 +1,89 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #f5f7fa;
+    color: #1a1a2e;
+    min-height: 100vh;
+}
+
+header {
+    background: #1a1a2e;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+header h1 { font-size: 2rem; }
+.tagline { color: #a0a0b0; margin-top: 0.3rem; }
+
+main { max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+
+.search-box {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+#search-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+#search-input:focus { outline: none; border-color: #1a1a2e; }
+
+#search-btn {
+    padding: 0.8rem 1.5rem;
+    background: #1a1a2e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.card.best-option { border: 2px solid #2ecc71; }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+}
+
+.card-header h3 { font-size: 1.1rem; }
+.score { color: #888; font-size: 0.85rem; }
+
+.medicine { color: #555; margin-bottom: 0.3rem; }
+.address { color: #777; margin-bottom: 0.6rem; }
+
+.meta { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+
+.badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.in-stock { background: #e8f8f0; color: #1a7f4d; }
+.low-stock { background: #fff8e6; color: #b8860b; }
+.out-of-stock { background: #fdecea; color: #c0392b; }
+.fresh { background: #e8f0fe; color: #1a73e8; }
+.aging { background: #f3e8fd; color: #8e44ad; }
+.stale { background: #fdecea; color: #c0392b; }
+.distance { color: #555; }
+.open { color: #555; }
+
+.loading, .error { text-align: center; color: #777; padding: 2rem; }
