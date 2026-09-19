@@ -52,3 +52,14 @@ CREATE TABLE availability_requests (
     FOREIGN KEY (medicine_id) REFERENCES medicines(medicine_id)
 );
 
+CREATE TABLE IF NOT EXISTS availability_requests (
+    request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    pharmacy_id INTEGER NOT NULL,
+    medicine_id INTEGER,
+    quantity INTEGER DEFAULT 1,
+    status TEXT DEFAULT 'pending',
+    timestamp TEXT,
+    FOREIGN KEY (pharmacy_id) REFERENCES pharmacies (pharmacy_id)
+);
+

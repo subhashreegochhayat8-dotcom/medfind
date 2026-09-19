@@ -7,18 +7,51 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <header>
+    <!-- Top bar with tabs -->
+    <div class="topbar">
         <h1>💊 MedFind</h1>
-        <p class="tagline">Find medicines at pharmacies near you</p>
-    </header>
+        <nav class="tabs">
+            <button class="tab-btn active" id="tab-search" onclick="switchTab('search')">🔍 Find Medicine</button>
+            <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">🏪 Pharmacy Dashboard</button>
+        </nav>
+    </div>
 
-    <main>
+    <!-- Search view -->
+    <main id="view-search" class="view">
         <section class="search-box">
             <input type="text" id="search-input" placeholder="Search medicine (e.g. Paracetamol, Azithromycin)">
             <button id="search-btn">Search</button>
         </section>
-
         <div id="results"></div>
+    </main>
+
+    <!-- Dashboard view -->
+    <main id="view-dashboard" class="view hidden">
+        <!-- Login form (shown when not logged in) -->
+        <div id="login-box" class="login-box">
+            <h2>Pharmacy Login</h2>
+            <p class="login-hint">Demo passwords: medplus123, apollo123, lifecare123, sunrise123, city123, wellness123</p>
+            <select id="login-pharmacy" class="pharmacy-select">
+                <option value="MedPlus Pharmacy">MedPlus Pharmacy</option>
+                <option value="Apollo Pharmacy">Apollo Pharmacy</option>
+                <option value="LifeCare Pharmacy">LifeCare Pharmacy</option>
+                <option value="Sunrise Medical">Sunrise Medical</option>
+                <option value="City Chemist">City Chemist</option>
+                <option value="Wellness Pharmacy">Wellness Pharmacy</option>
+            </select>
+            <input type="password" id="login-password" class="qty-input login-input" placeholder="Password">
+            <button id="login-btn" class="update-btn">Login</button>
+            <p id="login-error" class="error hidden"></p>
+        </div>
+
+        <!-- Inventory (shown when logged in) -->
+        <div id="dashboard-content" class="hidden">
+            <div class="dashboard-header">
+                <h2>Current Inventory — <span id="pharmacy-name"></span></h2>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+            <div id="inventory" class="inv-list"></div>
+        </div>
     </main>
 
     <script src="/static/script.js"></script>
