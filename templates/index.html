@@ -3,56 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedFind — Medicine Availability Finder</title>
+    <meta name="theme-color" content="#fbfaff">
+    <title>MedFind RX Availability Network</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <!-- Top bar with tabs -->
-    <div class="topbar">
-        <h1>💊 MedFind</h1>
-        <nav class="tabs">
-            <button class="tab-btn active" id="tab-search" onclick="switchTab('search')">🔍 Find Medicine</button>
-            <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">🏪 Pharmacy Dashboard</button>
+    <header class="topbar">
+        <a class="brand" href="#" aria-label="MedFind home" onclick="switchTab('search'); return false;">
+            <span class="brand-mark" aria-hidden="true">+</span>
+            <span class="brand-copy"><strong>MedFind</strong><small>RX AVAILABILITY NETWORK</small></span>
+        </a>
+        <nav class="tabs" aria-label="Main navigation">
+            <button class="tab-btn active" id="tab-search" onclick="switchTab('search')">Find Medicine</button>
+            <button class="tab-btn" id="tab-dashboard" onclick="switchTab('dashboard')">Pharmacy Dashboard</button>
         </nav>
-    </div>
+        <div class="header-tools">
+            <div class="network-status"><span class="status-dot"></span><span>System Active</span><i>•</i><span>42 Pharmacies Online</span></div>
+            <a class="help-link" href="#demo-guide" id="help-link">Help / Demo Guide</a>
+            <button class="user-button" id="user-button" type="button" aria-label="Open pharmacy dashboard" title="Pharmacy dashboard" onclick="switchTab('dashboard')">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>
+            </button>
+        </div>
+    </header>
 
-    <!-- Search view -->
     <main id="view-search" class="view">
-        <section class="search-box">
-            <input type="text" id="search-input" placeholder="Search medicine (e.g. Paracetamol, Azithromycin)">
-            <button id="search-btn">Search</button>
+        <section class="search-hero">
+            <div class="eyebrow"><span class="eyebrow-dot"></span> DIRECT RX AVAILABILITY PROTOCOL</div>
+            <h1>Find in-stock medicines near you</h1>
+            <p class="intro-description">Real-time verified stock across verified local pharmacies and hospital dispensaries with sub-minute telemetry sync.</p>
+            <div class="search-panel" aria-label="Medicine search">
+                <div class="search-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg></div>
+                <input type="search" id="search-input" value="Paracetamol 500mg" placeholder="Paracetamol 500mg" autocomplete="off" aria-label="Medicine name">
+                <label class="location-field"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 11 16-7-7 16-2-7-7-2Z"></path><path d="m11 13 5-5"></path></svg><select id="location-select" aria-label="Search radius and area"><option value="5">Within 5 km · Downtown</option><option value="10">Within 10 km · Downtown</option><option value="25">Within 25 km · Downtown</option></select><span class="select-chevron">⌄</span></label>
+                <button id="search-btn" class="search-submit" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg><span>Find Availability</span></button>
+                <div class="suggestions" aria-label="Suggested medicines"><span class="suggestion-label">SUGGESTED:</span><div class="suggestion-list">
+                    <button class="suggestion-chip" data-query="Paracetamol 500mg">Paracetamol 500mg</button>
+                    <button class="suggestion-chip" data-query="Amoxicillin 500mg Clavulanate">Amoxicillin 500mg Clavulanate</button>
+                    <button class="suggestion-chip" data-query="Metformin 850mg">Metformin 850mg</button>
+                    <button class="suggestion-chip" data-query="Salbutamol Inhaler">Salbutamol Inhaler</button>
+                    <button class="suggestion-chip" data-query="Azithromycin 500mg">Azithromycin 500mg</button>
+                </div></div>
+            </div>
         </section>
-        <div id="results"></div>
+
+        <section class="results-section" aria-label="Pharmacy availability results">
+            <div class="results-toolbar">
+                <div class="results-summary">
+                    <p id="results-summary"><span class="summary-icon" aria-hidden="true">⛭</span> Showing 5 verified pharmacies with stock for <strong>“Paracetamol 500mg”</strong></p>
+                    <span class="summary-sort">• Sorted by Availability &amp; Proximity</span>
+                </div>
+                <div class="results-controls">
+                    <label class="stock-toggle"><input type="checkbox" id="stock-only"><span class="toggle-track"><i></i></span><span>In stock only</span></label>
+                    <label class="sort-control"><span>Sort:</span><select id="sort-select"><option value="best">Best Match (Ranked)</option><option value="availability">Availability</option><option value="distance">Proximity</option></select></label>
+                </div>
+            </div>
+            <div class="results-list" id="results" aria-live="polite"></div>
+        </section>
+
+        <section class="guarantee-strip">
+            <div class="guarantee-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 7 3v5c0 4.8-3 8-7 10-4-2-7-5.2-7-10V6l7-3Z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
+            <div class="guarantee-copy"><strong>Real-Time Reservation Guarantee:</strong> Availability requests temporarily lock dispense units for up to 90 minutes. Present your patient ID or prescription upon arrival.</div>
+            <div class="network-ping"><span class="ping-light"></span><span>Dispensary Network Ping: <strong>42ms</strong></span></div>
+        </section>
     </main>
 
-    <!-- Dashboard view -->
     <main id="view-dashboard" class="view hidden">
-        <!-- Login form (shown when not logged in) -->
-        <div id="login-box" class="login-box">
-            <h2>Pharmacy Login</h2>
-            <p class="login-hint">Demo passwords: medplus123, apollo123, lifecare123, sunrise123, city123, wellness123</p>
-            <select id="login-pharmacy" class="pharmacy-select">
-                <option value="MedPlus Pharmacy">MedPlus Pharmacy</option>
-                <option value="Apollo Pharmacy">Apollo Pharmacy</option>
-                <option value="LifeCare Pharmacy">LifeCare Pharmacy</option>
-                <option value="Sunrise Medical">Sunrise Medical</option>
-                <option value="City Chemist">City Chemist</option>
-                <option value="Wellness Pharmacy">Wellness Pharmacy</option>
-            </select>
-            <input type="password" id="login-password" class="qty-input login-input" placeholder="Password">
-            <button id="login-btn" class="update-btn">Login</button>
-            <p id="login-error" class="error hidden"></p>
+        <div class="login-box" id="login-box">
+                <div class="login-topline"><span class="portal-gateway"><span class="shield-icon">◈</span> PORTAL GATEWAY</span><span class="auth-version">NODE-AUTH v2.4</span></div>
+                <h2>Pharmacy Partner Portal</h2>
+                <p class="portal-instruction">Secure inventory telemetry &amp; public availability broadcast management</p>
+                <label class="form-label" for="login-pharmacy">Assigned Dispensary Endpoint</label>
+                <select id="login-pharmacy">
+                    <option value="MedPlus Pharmacy">MedPlus Pharmacy</option>
+                    <option value="Apollo Pharmacy">Apollo Pharmacy</option>
+                    <option value="LifeCare Pharmacy">LifeCare Pharmacy</option>
+                    <option value="Sunrise Medical">Sunrise Medical</option>
+                    <option value="City Chemist">City Chemist</option>
+                    <option value="Wellness Pharmacy">Wellness Pharmacy</option>
+                </select>
+                <label class="form-label password-label" for="login-password"><span>Staff Access Credential</span><small>Encrypted Key</small></label>
+                <div class="password-wrap"><input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password"><button id="password-toggle" type="button" aria-label="Show password">SHOW</button></div>
+                <button id="login-btn" class="login-submit" type="button"><span aria-hidden="true">⚿</span> Sign In to Dashboard</button>
+                <p id="login-error" class="error hidden"></p>
+                <div class="sandbox-note"><strong><span>ⓘ</span> SANDBOX PROTOCOL PARAMETERS</strong><span>MedPlus: <b>medplus123</b> · Apollo: <b>apollo123</b> · LifeCare: <b>lifecare123</b></span><span>Sunrise: <b>sunrise123</b> · City: <b>city123</b> · Wellness: <b>wellness123</b></span></div>
+                <button class="quick-demo" id="quick-demo" type="button"><span aria-hidden="true">ϟ</span> Quick Demo Sign In as MedPlus Pharmacy</button>
+                <p class="demo-bypass">Select a dispensary endpoint to use its demo credential.</p>
         </div>
 
-        <!-- Inventory (shown when logged in) -->
-        <div id="dashboard-content" class="hidden">
+        <div id="dashboard-content" class="dashboard-content hidden">
             <div class="dashboard-header">
-                <h2>Current Inventory — <span id="pharmacy-name"></span></h2>
+                <div><span class="portal-overline">AUTHENTICATED DISPENSARY</span><h2><span id="pharmacy-name"></span></h2></div>
                 <button id="logout-btn" class="logout-btn">Logout</button>
             </div>
+            <div class="inventory-heading"><div><span class="portal-overline">STOCK TELEMETRY</span><h3>Inventory management</h3></div><span class="inventory-live"><i></i> LIVE ENDPOINT</span></div>
             <div id="inventory" class="inv-list"></div>
         </div>
     </main>
+
+    <footer class="site-footer">
+        <span>© 2025 MedFind Rx Availability Network.</span>
+        <span>Clinical Telemetry &amp; Stock Verification.</span>
+        <span>v2.4.0-prod Protocol Specifications.</span>
+    </footer>
+
+    <dialog class="demo-dialog" id="demo-guide" aria-labelledby="guide-title">
+        <div class="dialog-top"><span class="portal-overline">MEDFIND / FIELD GUIDE</span><button class="dialog-close" id="dialog-close" aria-label="Close help guide">×</button></div>
+        <h2 id="guide-title">Help / Demo Guide</h2>
+        <p>Search by medicine name to view pharmacy-reported stock near Bhubaneswar. Use the radius, stock filter, and sort menu to narrow the results.</p>
+        <p>Availability requests are recorded for the selected pharmacy. Out-of-stock entries can be marked for a local restock notification.</p>
+        <div class="guide-credentials"><strong>DEMO SIGN-IN</strong><span>Choose a pharmacy and use its assigned demo password. Quick Demo Sign In uses MedPlus Pharmacy.</span></div>
+    </dialog>
 
     <script src="/static/script.js"></script>
 </body>
